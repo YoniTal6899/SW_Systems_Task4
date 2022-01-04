@@ -373,12 +373,12 @@ int main(){
             case 'S':
                 printf("Dijsktra shortest path: ");
                 shortsPath_cmd(head); 
-                printf(" \n");
+                printf("\n");
                 break;
             case 'T':
                 printf("TSP shortest path: ");
                 TSP_cmd(head); 
-                printf(" \n");
+                printf("\n");
                 break;
             case ' ':
                 break;     
