@@ -70,7 +70,7 @@ void build_graph_cmd(pnode *head)
             *tempE = e;
             tempE = &((*tempE)->next);
         }
-        if (i + 1 != Nodes_Num)
+        if (i +1 != Nodes_Num)
         {            
             scanf("%c", &garbage);
         }
@@ -133,7 +133,6 @@ void delete_node_cmd(pnode *head)
     int id;
     scanf("%d", &id);
     node *n = *head;
-    char garbage;
     pnode *p = head;
     while (n!=NULL)
     {
@@ -162,11 +161,9 @@ void delete_node_cmd(pnode *head)
         {
             *p = n->next;
             free(n);
-            scanf("%c", &garbage);
             return;            
         }
     }
-    scanf("%c", &garbage);
 }
 void InitMaxVal(pnode *head)
 {
@@ -218,7 +215,7 @@ void shortsPath_cmd(pnode head)
 {
     int src;
     int dest;
-    scanf("%d%d", &src, &dest);
+    scanf("%d %d", &src, &dest);
     Dikstra(&head, src);
     pnode Ndst = getNode(&head, dest);
     if (Ndst->tag != MAX)
@@ -282,6 +279,22 @@ void permute(int *a, int (*b)[6], int i, int n)
         }
     }
 }
+
+void deleteGraph_cmd(pnode* head){
+    pnode node_ = *head;
+    while (node_ != NULL){
+        pedge tempEdge = node_->edges;
+        while (tempEdge != NULL){
+            pedge tempEdgefree = tempEdge;
+            tempEdge = tempEdge->next;
+            free(tempEdgefree);
+        }
+        node *nodeToFree = node_;
+        node_ = node_->next;
+        free(nodeToFree);
+    }
+    free(node_);
+}
 void TSP_cmd(pnode head)
 {
 
@@ -331,23 +344,21 @@ void TSP_cmd(pnode head)
     }
     printf("%d ", min);
     free(nodes);
-    char garbage;
-    scanf("%c", &garbage);
 }
 
 
 int main(){
-    char a;
+    char a='a';
     pnode head;
-    int flag =0;
-    char garbage;
-    while (scanf("%c", &a)!=0){
-
-        if (flag)
-        {
-            scanf("%c", &garbage);
+    int flag=0;
+    scanf("%c",&a);
+    while (!feof(stdin)){
+        if(flag){
+            if((a = getchar()) == EOF){
+              break; 
+            }
         }
-        flag++;
+        flag=1;
         switch (a)
         {
             case 'A':
@@ -368,11 +379,14 @@ int main(){
                 printf("TSP shortest path: ");
                 TSP_cmd(head); 
                 printf(" \n");
-                break;      
+                break;
+            case ' ':
+                break;     
             default:
-                return 0;
-                
+                deleteGraph_cmd(&head);
+                return 0;               
         } 
     }
+    deleteGraph_cmd(&head);
     return 0;
 }
