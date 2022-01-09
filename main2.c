@@ -6,64 +6,64 @@
 int main()
 {
     setvbuf(stdout, NULL, _IONBF, 0);
-    struct Graph *g = NULL;
-    char a;
-    int src;
-    int dest;
-    int Nodeid;
-    int nodes_num;
-    int k;
-    while (scanf("%c", &a))
+    struct Graph *gr = NULL;
+    char ch;
+    int input_num;
+    while (scanf("%c", &ch))
     {
-        switch (a)
+        if (ch == '\n')
         {
-            case '\n':
-                break;
-        
-            case 'A':
-                if (g != NULL)
-                {
-                    delete_gr(g);
-                    g = NULL;
-                }
-                scanf("%d", &nodes_num); 
-                g = build_graph(nodes_num);
-                break;
-
-            case 'n':
-                while (scanf("%d", &Nodeid))
-                {
-                    add_node(Nodeid, g);
-                    get_edges(Nodeid, g); 
-                }
-                break;
-        
-            case 'B':
-                scanf("%d", &Nodeid);
-                Node *n = add_node(Nodeid, g);
-                get_edges(Nodeid, g);
-                break;
-
-            case 'D':
-                scanf("%d", &Nodeid);
-                delete_node(Nodeid, g);
-                break;
-        
-            case 'S':
-                scanf("%d", &src);
-                scanf("%d", &dest);
-                int ans = shortestPath(src, dest, g);
-                printf("Dijsktra shortest path: %d \n", ans);
-     
-            case 'T':        
-                scanf("%d", &k);
-                TSP(k, g);
-                break;
-        
-            default:
-                delete_gr(g);
-                return 0;
+            break;
+        }
+        if (ch == 'A')
+        {
+            if (gr != NULL)
+            {
+                delete_gr(gr);
+                gr = NULL;
+            }
+            scanf("%d", &input_num); 
+            gr = build_graph(input_num);
+        }
+        else if (ch == 'n') 
+        {
+            int src_A;
+            while (scanf("%d", &src_A))
+            {
+                    add_node(src_A, gr);
+                    get_edges(src_A, gr); // get the edges if any are given
+            }
+        }
+        else if (ch == 'B')
+        {
+            int num_B;
+            scanf("%d", &num_B);
+            Node *my_src = add_node(num_B, gr);
+            // get and and edges to node
+            get_edges(my_src->id, gr);
+        }
+        else if (ch == 'D')
+        {
+            int to_remove;
+            scanf("%d", &to_remove);
+            delete_node(to_remove, gr);
+        }
+        else if (ch == 'S')
+        {
+            int src;
+            int dest;
+            scanf("%d", &src);
+            scanf("%d", &dest);
+            int ans = shortestPath(src, dest, gr);
+            printf("Dijsktra shortest path: %d \n", ans);
+        }
+        else if (ch == 'T')
+        {
+            int k;
+            scanf("%d", &k);
+            TSP(k, gr);
         }
     }
-    
+    delete_gr(gr);
+    return 0;
 }
