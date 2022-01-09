@@ -1,15 +1,18 @@
-CC=gcc
-FLAGS= -Wall -g
-.PHONY: clean all
-#make all
+CC = gcc
+Flags = -Wall -g 
+
 all: graph
+ 
+graph : main2.o algo2.o
+	$(CC) $(Flags) main2.o algo2.o -o graph
 
-#make clean
-clean: 
-	rm -f *.o *.a *.so graph
+algo2.o : algo2.c graph.h
+	$(CC) -c algo2.c
 
-graph: graph.o
-	$(CC) $(FLAGS) -o graph graph.c graph.h
+main2.o : main2.c graph.h
+	$(CC) -c main2.c	
 
-graph.o: graph.c 
-	$(CC) $(FLAGS) -c graph.c
+.PHONY:clean all
+
+clean:
+	rm -f *.o graph
